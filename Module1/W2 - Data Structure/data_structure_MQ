@@ -1,0 +1,321 @@
+# Multiple Choice
+# Question 1:
+
+def max_kernel(num_list, k):
+    result = []
+
+    for i in range(len(num_list) - k + 1):
+        window = num_list[i:i+k]
+        max_in_win = max(window)
+        result.append(max_in_win)
+
+    return result
+
+
+assert max_kernel([3, 4, 5, 1, -44], 3)
+num_list = [3, 4, 5, 1, -44, 5, 10, 12, 33, 1]
+k = 3
+print(max_kernel(num_list, k))
+
+# Question 2:
+
+
+def character_count(word):
+    chracter_statistic = {}
+    for char in word:
+        if not char.isalpha():
+            print(f'Input must be alphabet letter')
+            break
+        else:
+            char = char.lower()
+            if char in chracter_statistic:
+                chracter_statistic[char] += 1
+            else:
+                chracter_statistic[char] = 1
+    return chracter_statistic
+
+
+print(character_count('smiles'))
+
+# Question 3: This function count the frequency of word in the input document
+
+
+def count_word(file_path):
+    with open(file_path, 'r') as f:
+        document = f.read()
+
+    words = document.split()
+
+    counter = {}
+    for word in words:
+        if word in counter:
+            counter[word] += 1
+        else:
+            counter[word] = 1
+    return counter
+
+
+file_path = 'W2\P1_data.txt'
+result = count_word(file_path)
+assert result['who'] == 3
+print(result['man'])
+
+# Question 4: This function calculate the levenshtein distance (the minimum edit distance path)
+
+
+def levenshtein_distance(source, target):
+    # Intialize the matrix with size (len(token1)+1) x (len(token2)+1)
+    distances = [[0]*(len(target)+1) for i in range(len(source)+1)]
+
+    # Fill the first row and first column with incremental costs
+    for t1 in range(len(source) + 1):
+        distances[t1][0] = t1
+
+    for t2 in range(len(target) + 1):
+        distances[0][t2] = t2
+
+    del_cost = 0
+    ins_cost = 0
+    sub_cost = 0
+
+    for t1 in range(1, len(source) + 1):
+        for t2 in range(1, len(target) + 1):
+            if (source[t1-1] == target[t2-1]):
+                distances[t1][t2] = distances[t1 - 1][t2 - 1]
+            else:
+                del_cost = distances[t1][t2 - 1]  # Cost of Deletion
+                ins_cost = distances[t1 - 1][t2]  # Cost of Insertion
+                sub_cost = distances[t1-1][t2-1]  # Cost of Subsitution
+
+                if (del_cost <= ins_cost and del_cost <= sub_cost):
+                    distances[t1][t2] = del_cost + 1
+                elif (ins_cost <= del_cost and ins_cost <= sub_cost):
+                    distances[t1][t2] = ins_cost + 1
+                else:
+                    distances[t1][t2] = sub_cost + 1
+
+    return distances[len(source)][len(target)]
+
+
+# Testing the function
+assert levenshtein_distance("hi", "hello") == 4
+print(levenshtein_distance("hola", "hello"))
+
+
+# Question 5: This function check the input number whether it in the list of number had created
+def check_the_number(N):
+    list_of_number = []
+    results = ""
+    for i in range(1, 5):
+        list_of_number.append(i)
+    if N in list_of_number:
+        results = "True"
+    if N not in list_of_number:
+        results = "False"
+    return results
+
+
+N = 7
+assert check_the_number(N) == "False"
+
+N = 2
+results = check_the_number(N)
+print(results)
+
+# Question 6: This function replace the value in the list if it smaller than given min and larger than given max
+
+
+def my_function(data, max, min):
+    result = []
+    for i in data:
+        if i < min:
+            result.append(min)
+        elif i > max:
+            result. append(max)
+        else:
+            result.append(i)
+    return result
+
+
+my_list = [5, 2, 5, 0, 1]
+max = 1
+min = 0
+assert my_function(max=max, min=min, data=my_list) == [1, 1, 1, 0, 1]
+
+my_list = [10, 2, 5, 0, 1]
+max = 2
+min = 1
+print(my_function(my_list, max, min))
+
+# Question 7:
+
+
+def my_function(x, y):
+
+    x.extend(y)
+    return x
+
+
+list_num1 = ['a', 2, 5]
+list_num2 = [1, 1]
+list_num3 = [0, 0]
+
+assert my_function(list_num1, my_function(list_num2, list_num3)) == [
+    'a', 2, 5, 1, 1, 0, 0]
+
+list_num1 = [1, 2]
+list_num2 = [3, 4]
+list_num3 = [0, 0]
+
+print(my_function(list_num1, my_function(list_num2, list_num3)))
+
+# Question 8 : This function get the min value in the list
+
+
+def my_function(n):
+    result = min(n)
+    return result
+
+
+my_list = [1, 22, 93, -100]
+assert my_function(my_list) == -100
+
+my_list = [1, 2, 3, -1]
+print(my_function(my_list))
+
+# Question 9 :  This function get the max value in the list
+
+
+def my_function(n):
+    result = max(n)
+    return result
+
+
+my_list = [1001, 9, 100, 0]
+assert my_function(my_list) == 1001
+
+my_list = [1, 9, 9, 0]
+print(my_function(my_list))
+
+# Question 10:
+
+
+def my_function(integers, number):
+    result = []
+    for i in range(len(integers)):
+        if integers[i] == number:
+            result.append('True')
+        else:
+            result.append('False')
+    return result
+
+
+my_list = [1, 3, 9, 4]
+assert (my_function(my_list, -1)) == ['False', 'False', 'False', 'False']
+
+my_list = [1, 2, 3, 4]
+print(my_function(my_list, 2))
+
+# Question 11:
+
+
+def my_function(list_nums):
+    var = 0
+    for i in list_nums:
+        var += i
+
+    average = var / len(list_nums) if list_nums else 0
+    return average
+
+
+assert my_function([4, 6, 8]) == 6
+
+list_nums = [0, 1, 2]
+print(my_function(list_nums))
+
+# Question 12:
+
+
+def my_function(data):
+    var = []
+    var = [x for x in data if x % 3 == 0]
+    return var
+
+
+data = [3, 9, 4, 5]
+assert my_function(data) == [3, 9]
+
+data = [1, 2, 3, 5, 6]
+print(my_function(data))
+
+# Question 13:
+
+
+def my_function(y):
+    var = 1
+    while (y > 1):
+        var = var * y
+        y -= 1
+    return var
+
+
+assert my_function(8) == 40320
+print(my_function(4))
+
+# Question 14 :
+
+
+def my_function(x):
+    reversed_s = ''.join(reversed(x))
+    return reversed_s
+    print(f'"{reversed_s}"')
+
+
+x = "I can do it"
+assert my_function(x) == "ti od nac I"
+
+x = 'apricot'
+print(my_function(x))
+
+# Question 15 :
+
+
+def function_helper(x):
+    return 'T' if x > 0 else 'N'
+
+
+def my_function(data):
+    res = [function_helper(x) for x in data]
+    return res
+
+
+data = [10, 0, -10, -1]
+assert (my_function(data)) == ['T', 'N', 'N', 'N']
+
+data = [2, 3, 5, -1]
+print(my_function(data))
+
+# Question 16:
+
+
+def function_helper(x, data):
+    for i in data:
+        if x == i:
+            return 0
+    return 1
+
+
+def my_function(data):
+    res = []
+    for i in data:
+        if function_helper(i, res):
+            res.append(i)
+
+    return res
+
+
+lst = [10, 10, 9, 7, 7]
+assert my_function(lst) == [10, 9, 7]
+
+lst = [9, 9, 8, 1, 1]
+print(my_function(lst))
